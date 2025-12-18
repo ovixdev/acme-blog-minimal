@@ -1,0 +1,166 @@
+---
+// src/layouts/PostLayout.astro
+
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+    pubDate: string;
+    author: string;
+    tags?: string[];
+  };
+}
+
+const { frontmatter } = Astro.props;
+
+// Format the date nicely
+const formattedDate: string = new Date(frontmatter.pubDate).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <article class="post">
+    <header class="post-header">
+      <h1>{frontmatter.title}</h1>
+      <div class="post-meta">
+        <span class="author">By {frontmatter.author}</span>
+        <span class="separator">•</span>
+        <time datetime={frontmatter.pubDate}>{formattedDate}</time>
+      </div>
+      {frontmatter.tags && (
+        <div class="tags">
+          {frontmatter.tags.map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="post-content">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    max-width: 750px;
+  }
+
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .post-header h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #1a1a2e;
+  }
+
+  .post-meta {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .separator {
+    margin: 0 0.5rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: #e9ecef;
+    color: #495057;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+
+  .post-content {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  /* Style Markdown content */
+  .post-content :global(h2) {
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: #1a1a2e;
+  }
+
+  .post-content :global(h3) {
+    font-size: 1.35rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #1a1a2e;
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .post-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 4px solid #1a1a2e;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #555;
+  }
+
+  .post-content :global(code) {
+    background: #f1f3f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .post-content :global(pre) {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .post-content :global(pre code) {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .post-content :global(strong) {
+    color: #1a1a2e;
+  }
+
+  .post-content :global(hr) {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 2rem 0;
+  }
+</style>
