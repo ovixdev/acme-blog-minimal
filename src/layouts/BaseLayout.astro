@@ -4,7 +4,6 @@
 interface Props {
   title: string;
   description?: string;
-  // Frontmatter from Markdown files
   frontmatter?: {
     title: string;
     description?: string;
@@ -13,22 +12,23 @@ interface Props {
   };
 }
 
-// Get props - handle both direct props and frontmatter from Markdown
 const { title, description, frontmatter } = Astro.props;
 
-// Use frontmatter values if available (for Markdown pages)
 const pageTitle: string = frontmatter?.title ?? title;
 const pageDescription: string = frontmatter?.description ?? description ?? "Tech & Marketing Insights from Acme Ltd";
 
 const companyName: string = "Acme Ltd";
 const currentYear: number = new Date().getFullYear();
+
+// Get the base URL from Astro config
+const base: string = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={pageDescription} />
     <title>{pageTitle} | {companyName}</title>
@@ -36,10 +36,11 @@ const currentYear: number = new Date().getFullYear();
   <body>
     <header>
       <nav>
-        <a href="/" class="logo">{companyName}</a>
+        <a href={base} class="logo">{companyName}</a>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
+          <li><a href={base}>Home</a></li>
+          <li><a href={`${base}/blog`}>Blog</a></li>
+          <li><a href={`${base}/about`}>About</a></li>
         </ul>
       </nav>
     </header>

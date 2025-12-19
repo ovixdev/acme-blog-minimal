@@ -5,10 +5,8 @@ import { getCollection } from "astro:content";
 import PostCard from "../components/PostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// Fetch all posts from the collection
 const allPosts = await getCollection("posts");
 
-// Sort posts by date (newest first)
 const sortedPosts = allPosts.sort((a, b) => {
   return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
 });
@@ -31,7 +29,7 @@ const sortedPosts = allPosts.sort((a, b) => {
       {sortedPosts.map((post) => (
         <PostCard
           title={post.data.title}
-          url={`/posts/${post.slug}`}
+          url={`posts/${post.slug}`}
           pubDate={post.data.pubDate}
           author={post.data.author}
           description={post.data.description}
