@@ -1,7 +1,6 @@
 ---
-layout: '../../layouts/PostLayout.astro'
 title: 'Welcome to the Acme Ltd Blog'
-pubDate: 2024-01-15
+pubDate: '2024-01-15'
 author: 'Jane Smith'
 description: 'Introducing our new blog where we share insights on tech and marketing.'
 tags: ['company news', 'announcements']

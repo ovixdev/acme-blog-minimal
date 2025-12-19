@@ -1,49 +1,82 @@
 ---
 // src/pages/index.astro
 
-// Import the layout component
+import { getCollection } from "astro:content";
+import PostCard from "../components/PostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// Page-specific data
-const tagline: string = "Tech & Marketing Insights";
+// Fetch all posts from the collection
+const allPosts = await getCollection("posts");
+
+// Sort posts by date (newest first)
+const sortedPosts = allPosts.sort((a, b) => {
+  return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
+});
 ---
 
-<!-- Use the layout and pass props -->
 <BaseLayout title="Home" description="Welcome to Acme Ltd Blog - Tech & Marketing Insights">
-  <!-- Everything here goes into the <slot /> -->
-  <h1>Welcome to Acme Ltd Blog</h1>
-  <p>{tagline}</p>
-
-  <section class="intro">
-    <p>
-      We share insights on technology trends and marketing strategies
+  <section class="hero">
+    <h1>Welcome to Acme Ltd Blog</h1>
+    <p class="tagline">Tech & Marketing Insights</p>
+    <p class="intro">
+      We share practical insights on technology and marketing strategies
       to help your business grow.
     </p>
+  </section>
+
+  <section class="posts-section">
+    <h2>Latest Posts</h2>
+
+    <div class="posts-list">
+      {sortedPosts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          url={`/posts/${post.slug}`}
+          pubDate={post.data.pubDate}
+          author={post.data.author}
+          description={post.data.description}
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
   </section>
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    color: #1a1a2e;
+  .hero {
+    text-align: center;
+    padding: 2rem 0 3rem;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 3rem;
   }
 
-  h1 + p {
+  .hero h1 {
+    font-size: 2.75rem;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+  }
+
+  .tagline {
     font-size: 1.25rem;
     color: #666;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .intro {
-    background: #f8f9fa;
-    padding: 2rem;
-    border-radius: 8px;
-    border-left: 4px solid #1a1a2e;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #444;
   }
 
-  .intro p {
-    margin: 0;
-    color: #444;
+  .posts-section h2 {
+    font-size: 1.5rem;
+    color: #1a1a2e;
+    margin-bottom: 1.5rem;
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 </style>

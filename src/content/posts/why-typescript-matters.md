@@ -1,7 +1,6 @@
 ---
-layout: '../../layouts/PostLayout.astro'
 title: 'Why TypeScript Matters for Your Business'
-pubDate: 2024-02-01
+pubDate: '2024-02-01'
 author: 'Sarah Johnson'
 description: 'How TypeScript can improve your development workflow and reduce bugs.'
 tags: ['tech', 'typescript', 'development']

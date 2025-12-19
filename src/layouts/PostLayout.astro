@@ -95,7 +95,10 @@ const formattedDate: string = new Date(frontmatter.pubDate).toLocaleDateString("
     line-height: 1.8;
   }
 
-  /* Style Markdown content */
+  .post-content :global(h1) {
+    display: none;
+  }
+
   .post-content :global(h2) {
     font-size: 1.75rem;
     margin-top: 2.5rem;

@@ -1,7 +1,6 @@
 ---
-layout: '../../layouts/PostLayout.astro'
 title: '5 Marketing Trends to Watch in 2024'
-pubDate: 2024-01-22
+pubDate: '2024-01-22'
 author: 'John Doe'
 description: 'Stay ahead of the curve with these emerging marketing trends.'
 tags: ['marketing', 'trends']
